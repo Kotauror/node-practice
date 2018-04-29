@@ -51,4 +51,16 @@ What JS need to manage a server?
 ### Writing node intro
 
 We can run apps by typing node app.js in the command line.
-We can run many files, not only one, but always need an entry point - one that will execute. 
+We can run many files, not only one, but always need an entry point - one that will execute.
+
+### Modules, exports and require
+
+Modules - reusable block of code whose existence does not accidentaly impact other code.
+
+CommonJS modules - an agreed upon standat for how code modules should be structured.
+
+##### JS first-class functions and function expressions
+
+first class functions - everything you can do with other types you can do with functions. Use functions like strings, numbers (i.e. pass them aroung, set variables to equal them, put them in arrays)
+
+  function expression - block of code that results in a value. Are possible in JS because functions are first-class.
