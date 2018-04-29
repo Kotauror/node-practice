@@ -1,3 +1,5 @@
+## Notes from udemy node.js course - sec. 1 - 4.
+
 ### Shortcut - quick node server setup  
 
 ```javascript
@@ -116,5 +118,16 @@ var person = {
   }
 }
 
-person.greet()  // hello kot doe 
+person.greet()  // hello kot doe
 ```
+
+### Inheritance in JS
+
+inheritance in JS implements prototypical inheritance.
+Every object in JS has a property that points to another object - it's the objects prototype. It's a thing it inherits from. It's a different object which will then have access to different properties and methods.
+
+Objects which inherit from prototypes, can use methods defined for these prototypes (not only in first-level inheritance, but in all levels) -- prototype chain.
+
+Creating JS object in a way that allows us to manage what the prototype is:
+* ES6 class
+* Function constructors - function used to construct objects
