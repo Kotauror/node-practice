@@ -1,3 +1,14 @@
+### Shortcut - quick node server setup  
+
+```javascript
+var http = require('http');
+
+http.createServer(function(req, res) {
+  res.writeHead(200, {'Content-Type' : 'text/plain'});
+  res.end('Hello World\n');
+}).listen(1337, '127.0.0.1');
+```
+
 ### V8 javascript engine
 
 micro - a very small machine that speaks a language and gets instructions in that language (eg. IA-32, x86-64, ARM).
@@ -23,3 +34,21 @@ in 8V - write any code (new feature) for JS - eg. how to communicate with DB - a
 Node.js - a C++ feature added to JS through V8.
 
 ### Node core
+
+Clinet --> in standard format request to Server
+Server --> in standard format response to Client
+
+WebServer - server connected to web, its usuall clients are internet browsers. The standard format is HTTP.
+
+What JS need to manage a server?
+- organise code in reusable pieces
+- handle files
+- deal with DB
+- communicate over the internet
+- accept req and send res in standard format
+- deal with work that tkaes a long time.
+
+### Writing node intro
+
+We can run apps by typing node app.js in the command line.
+We can run many files, not only one, but always need an entry point - one that will execute. 
