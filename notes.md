@@ -104,3 +104,17 @@ var greet = require('./greet.js');
 
 greet()
 ```
+
+### Object with method:
+
+```javascript
+var person = {
+  firstname: "kot",
+  lastname: "doe",
+  greet: function() {
+    console.log("hello " + this.firstname + " " + this.lastname)
+  }
+}
+
+person.greet()  // hello kot doe 
+```
