@@ -64,3 +64,43 @@ CommonJS modules - an agreed upon standat for how code modules should be structu
 first class functions - everything you can do with other types you can do with functions. Use functions like strings, numbers (i.e. pass them aroung, set variables to equal them, put them in arrays)
 
   function expression - block of code that results in a value. Are possible in JS because functions are first-class.
+
+##### build a module
+
+- module - independent code, but able to working with other code. Reusable. Keeps code structured and easy to manage as it grows.
+
+- import module by using a node-specific require function,
+that accepts one argument - a string - location of imported module.
+
+eg. same level (location) - `require('./greet.js')`
+
+Code in the module is not available in the file which requires it unless it's explicitly allowed. This separation protects the code so that a changes in module won't accidently affect the main code.
+
+`Exports` - a spaciel place to put things that we want to make available to anything else that uses a module with the exports -- we decide what will be available outside the module for use.
+
+In order to import what was export in another file, we can set it to a variable.
+
+For example:
+
+In the module :
+
+```javascript
+var hello = function() {
+  console.log('jejejje')
+};
+
+
+var hello2 = function() {
+  console.log('hohooho')
+};
+
+module.exports = hello2;
+```
+
+In main app:
+
+```javascript
+var greet = require('./greet.js');
+
+greet()
+```
