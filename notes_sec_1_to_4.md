@@ -131,3 +131,93 @@ Objects which inherit from prototypes, can use methods defined for these prototy
 Creating JS object in a way that allows us to manage what the prototype is:
 * ES6 class
 * Function constructors - function used to construct objects
+
+### By reference vs by value
+
+primitive - represents a single value - not object. eg. string, numbers. passing by value for primitives - naturally by JS.
+
+when we pass object to a function - different thing happens! Passing by reference = no new copies of objects, changing the object passed!
+
+by value:
+
+```javascript
+function change(argument) {
+  argument = 2;
+}
+
+var a = 1;
+change(a);
+console.log(a);
+
+// a still is 1, because it's primitive - by value. What happend to b didn't affect a - they have different places in memory.
+```
+
+by reference:
+
+```javascript
+function changeObj(d) {
+  d.prop1 = function() {console.log("ji")};
+  d.prop2 = {};
+}
+
+var c = {}
+
+console.log(c) // {}
+changeObj(c)
+console.log(c.prop1) // [Function]
+console.log(c) // { prop1: [Function], prop2: {} }
+```
+### Immediately Invoked Function Expressions - IIFEs
+
+How they affect scope.
+
+```javascript
+(function () {
+
+}) // expression holding a function
+
+(function () {
+
+}()) // immediately invoked expression holding a function
+```
+```JavaScript
+(function () {
+
+  var firstname = "John";
+  console.log(firstname)
+
+}()) // immediately invoked expression holding a function
+
+var firstname = "kot"
+console.log(firstname)  
+// John Jane
+```
+
+```JavaScript
+var firstname = "kot"
+
+(function () {
+
+  var firstname = "John";
+  console.log(firstname)
+
+}()) // immediately invoked expression holding a function
+
+console.log(firstname)
+// john Jane
+```
+
+First - does the IIFE
+Later - console.log - idzie po kolei i tak.
+
+We can pass arguments:
+
+```javascript
+(function (surname) {
+
+  var firstname = "John";
+  console.log(firstname)
+  console.log(surname)
+
+}("doe"))
+```
