@@ -221,3 +221,130 @@ We can pass arguments:
 
 }("doe"))
 ```
+
+### Module expports and require
+
+Require - a JS function in node.
+Require function gets a path as an arguments and returns what comes back from a require function.
+
+Modules have access to a require function.
+
+Summary:
+
+We have a module, we wrapp the exported code in a function expression.
+This func expect 5 parameters - exports, require, module, filename and dirname.
+
+```javascript
+(function (exports, require, module, __filename, __dirname) {
+  var greet = function() {
+    console.log("Hello!");
+  }
+
+  module.exports = greet;
+});
+  ```
+
+Node invokes the function:
+
+```javascript
+fn(module.exports, require, module, filename, dirname)
+```
+
+require returns module.exports.
+Whatever i do to module.exports inside the module is going to impact module.exports outside the function.
+
+Require - a function you pass a path to
+
+Module.exports - what require returns
+
+It works because code is actually wrapped in a function that is given these things as function parameters.
+
+### JSON
+
+Javascript object notation - standard for structuring data.
+
+- no functions, just pure data
+- literal objects, eg.:
+
+```plain
+{
+  "name": "kota",
+  "surname": "kotowa",
+  "address": {
+    "street": "kocia",
+    "number": 10
+  }
+}
+```
+
+### More on require - requiring several files and non-js files
+
+If there is no file with the name passed in the require, it will look for the folder with the same name and index file - will run the index file.
+
+File structure:
+
+app:
+
+```JavaScript
+var greet = require("./greet")
+```
+
+greet/index.js:
+
+```JavaScript
+var english = require('./english');
+var spanish = require('./spanish')
+
+module.exports = {
+  english: english, // name + value(name of variable)
+  spanish: spanish
+} // object with two methods on it.
+```
+
+greet/english.js:
+
+```javascript
+var greet = function() {
+  console.log("hello")
+};
+
+module.exports = greet;
+```
+
+greet/spanish.js:
+
+```javascript
+var greet = function() {
+  console.log("hola")
+};
+
+module.exports = greet;
+```
+
+Module.exports from index.js returns an object with two methods on it.
+In app.js we assigned this object to the variable - greet.
+Now we can call method available to the object like in app.js like this:
+
+```javascript
+greet.english()
+greet.spanish()
+```
+
+### Processing .json file
+
+I've added a JSON file to greet/greetings.json:
+
+```JavaScript
+{
+  "en": "Hello",
+  "es": "Hola"
+}
+```
+
+Then I required it in spanish.js in english.js:
+
+```javascript
+var greetings = require("./greetings.json")
+```
+
+`greetings` is now an object made of JSON. We can now call `greetings.en` and get a string `Hello`.
