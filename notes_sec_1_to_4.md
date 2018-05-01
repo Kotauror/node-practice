@@ -348,3 +348,125 @@ var greetings = require("./greetings.json")
 ```
 
 `greetings` is now an object made of JSON. We can now call `greetings.en` and get a string `Hello`.
+
+### Module patterns
+
+Structuring modules using patterns.
+
+1. Overwriting module.exports empty objects
+
+In module:
+```javascript
+module.exports = function() {
+  console.log("hello")
+}
+
+// overwrite empty module.exports object - now it is a function.
+```
+In app.js:
+
+```javascript
+var greet1 = require('./greet1')
+greet1() // is a function as module.exports has a function
+```
+2. Adding a method to the module.exports object
+
+In module:
+```javascript
+module.exports.greet = function() {
+  console.log("hello world")
+} // we've added a method to the module.exports object.
+```
+In app.js:
+```javascript
+var greet2 = require('./greet2')
+greet2.greet() // call a greet method of greet2 object.
+//or
+var greet2 = require('./greet2').greet
+greet2() // we narrowed the require to the greet method, so now greet2 is a method
+```
+
+3. Function constructor - single object
+
+in module:
+```javascript
+function Greeter() {
+  this.greeting = "Hello world"
+  this.greet = function() {
+    console.log(this.greeting)
+  }
+}
+
+module.exports = new Greeter();
+```
+in app.js:
+
+```javascript
+var greet3 = require('./greet3')
+greet3.greet()
+```
+
+We exported an instance of Greeter. This instance has access not only to its attributes,
+but also to the methods prototyped for Greeter.
+
+Even if we would do `var greet3 = require('./greet3')` many times, it will always be the same object - requiring it many times and changing the nae of variable won't help.
+
+It's because require caches - stores - the result of the require function for any filename. Whatever I have in module.exports, I will have cached and that cache will be returned instead.
+
+4. Function constructor - many objects
+In case we don't want to have always only one object, as above, but many.
+
+In module:
+
+```javascript
+function Greeter() {
+  this.greeting = "Hello world"
+  this.greet = function() {
+    console.log(this.greeting)
+  }
+}
+
+Greeter.prototype.funny = function() {
+  console.log("hehhe")
+}
+
+module.exports = Greetr;
+```
+
+Instead of exporting an instance, we export the whole constructor.
+Then we can create an instance(/s) in app. Also use on them the prototyped methods.
+
+In app.js:
+
+```JavaScript
+var Greet4 = require('./greet4')
+var greeter = new Greet4();
+greeter.greet();
+greeter.funny();
+```
+
+5. Revealing module pattern - exports an object with some properties
+
+Exposing only the properties and methods you want via an returned object.
+
+In module:
+
+```javascript
+var greeting = "Hello cats";
+
+function greet() {
+  console.log(greeting)
+}
+
+module.exports = {
+  greet: greet
+} // we only expose the function, not greeting variable.
+// we reveal in the object only the values/methods/properties we want others to use outside the modeule.
+```
+
+In app.js:
+
+```javascript
+var greet5 = require('./greet5')
+greet5.greet()
+```
