@@ -470,3 +470,7 @@ In app.js:
 var greet5 = require('./greet5')
 greet5.greet()
 ```
+
+### Exports vs module exports.
+
+`Exports` is a shorthand to `module.exports`.
