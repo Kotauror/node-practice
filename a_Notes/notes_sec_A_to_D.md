@@ -473,4 +473,8 @@ greet5.greet()
 
 ### Exports vs module exports.
 
-`Exports` is a shorthand to `module.exports`.
+`Exports` is a shorthand to `module.exports` but is problematic somethimes (see D12 video). It;s safer to use module.exports
+
+### Requiring core (native) modules.
+
+Require serves also another purpose than just help me grab my custom modules. 
