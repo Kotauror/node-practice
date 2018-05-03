@@ -160,4 +160,90 @@ emtr.emit(eventConfig.GREET)
 
 Everywhere where I used `'greet'`, now I'm using `eventConfig.GREET`, which has a value of `'greet'`. I get the same result, but avoid typos.
 
-We can also change the string only in one place - config. 
+We can also change the string only in one place - config.
+
+#### Object.create and prototypes - inheritance
+
+Object.create - fast and clen way to set up inheritance - prototype chain.
+
+```javascript
+var person = {
+  firstname: "",
+  lastname: "",
+  greet: function() {
+    return this.firstname + " " + this.lastname;
+  }
+}
+```
+
+We want to use this code above as a base, as a prototype for other objects. Instead of using function constructor, we will use this object literal.
+
+```javascript
+var john = Object.create(person)
+```
+`(person)` - what to create that object from
+`john` - empty object
+
+```javascript
+john.firstname = "John"
+john.lastname = "hehe"
+console.log(john.greet())
+```
+
+We overwrote `firstname` and `lastname`, also used `greet` method from `person` object.
+
+#### Inheriting from Event Emitter
+node `inherits` method.
+First inherit, then add other properties.
+
+```javascript
+var EventEmitter = require('events');
+var util = require('util');
+
+function Greetr() { // function constructor
+  this.greeting = "hello world";
+}
+util.inherits(Greetr, EventEmitter); // !!!!!!!!!!!!!!!!!!! // util module has inherits method.
+// any object created from Greetr(instance) should have access to the methods
+// and properties on the prototype property EventEmitter.
+
+Greetr.prototype.greet = function() {
+  console.log(this.greeting);
+  this.emit('greet') // we can use emit because instance inherits from event emitter - see above `util.inherits(Greetr, EventEmitter);`
+}
+
+var greeter1 = new Greetr();
+
+greeter1.on('greet', function() {
+  console.log("someone did it")
+})
+
+greeter1.greet()
+// console.log greeting - hello world
+// invoked greeter.on('greet') - console.logged someone did it
+```
+
+Passing arguments
+
+```javascript
+var EventEmitter = require('events');
+var util = require('util');
+
+function Greetr() {
+  this.greeting = "hello world";
+}
+util.inherits(Greetr, EventEmitter);
+
+Greetr.prototype.greet = function(data) { // we pass arg here
+  console.log(this.greeting + ": " + data); // use arg here
+  this.emit('greet', data) // we pass it further to emit.
+}
+
+var greeter1 = new Greetr();
+
+greeter1.on('greet', function(data) { // use it thanks to passing in emit
+  console.log("someone did it" + data) // useit
+})
+
+greeter1.greet("Koteczka")
+```
