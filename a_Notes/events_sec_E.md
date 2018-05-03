@@ -247,3 +247,33 @@ greeter1.on('greet', function(data) { // use it thanks to passing in emit
 
 greeter1.greet("Koteczka")
 ```
+
+### .call and .apply for invoking functions
+
+```javascript
+var obj = {
+  name: "John",
+  surname: "hehhee",
+  greet: function() {
+    console.log(`Hello ${this.name} ${this.surname}`)
+  }
+}
+
+obj.greet();
+obj.greet.call({name: "Jane"})
+```
+
+`call()` invokes a function like `()`
+the difference is - we can pass an argument to `call()` and overwrite what `this` points to.
+We passed a new object - `{name: "Jane"}` - now `this` will refer to this new object.
+
+output:
+```plain
+Hello John hehhee
+Hello Jane undefined // <---- because the passed object doesn't have a surname, only name (Jane).
+```
+```javascript
+obj.greet.apply({name: "Jane"})  
+```
+
+The difference between call and apply: In case of call and additional parameters, we pass them after come: {}, param1, param2. In case of apply, we pass them in arrayL {}, [param1, param2].
